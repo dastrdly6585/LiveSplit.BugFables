@@ -8,4 +8,13 @@
             <change>Initial Release</change>
         </changelog>
     </update>
+  <update version="1.0.1">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Fixed the prefix pointer path</change>
+      <change>Fixed the settings UI being too large in height</change>
+    </changelog>
+  </update>
 </updates>

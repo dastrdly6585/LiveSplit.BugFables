@@ -76,10 +76,11 @@ namespace LiveSplit.BugFables.UI
       // 
       // grpSplits
       // 
+      this.grpSplits.Controls.Add(this.btnSetCurrentSplits);
       this.grpSplits.Controls.Add(this.flowSplits);
       this.grpSplits.Location = new System.Drawing.Point(3, 83);
       this.grpSplits.Name = "grpSplits";
-      this.grpSplits.Size = new System.Drawing.Size(694, 700);
+      this.grpSplits.Size = new System.Drawing.Size(694, 687);
       this.grpSplits.TabIndex = 2;
       this.grpSplits.TabStop = false;
       this.grpSplits.Text = "Splits";
@@ -89,15 +90,15 @@ namespace LiveSplit.BugFables.UI
       this.flowSplits.AutoScroll = true;
       this.flowSplits.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
       this.flowSplits.Location = new System.Drawing.Point(6, 34);
-      this.flowSplits.MinimumSize = new System.Drawing.Size(0, 650);
+      this.flowSplits.MinimumSize = new System.Drawing.Size(0, 600);
       this.flowSplits.Name = "flowSplits";
-      this.flowSplits.Size = new System.Drawing.Size(682, 650);
+      this.flowSplits.Size = new System.Drawing.Size(682, 600);
       this.flowSplits.TabIndex = 0;
       this.flowSplits.WrapContents = false;
       // 
       // btnSetCurrentSplits
       // 
-      this.btnSetCurrentSplits.Location = new System.Drawing.Point(378, 789);
+      this.btnSetCurrentSplits.Location = new System.Drawing.Point(375, 640);
       this.btnSetCurrentSplits.Name = "btnSetCurrentSplits";
       this.btnSetCurrentSplits.Size = new System.Drawing.Size(313, 38);
       this.btnSetCurrentSplits.TabIndex = 3;
@@ -109,11 +110,10 @@ namespace LiveSplit.BugFables.UI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Controls.Add(this.btnSetCurrentSplits);
       this.Controls.Add(this.grpSplits);
       this.Controls.Add(this.groupBox1);
       this.Name = "SettingsUserControl";
-      this.Size = new System.Drawing.Size(700, 843);
+      this.Size = new System.Drawing.Size(700, 779);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.grpSplits.ResumeLayout(false);
