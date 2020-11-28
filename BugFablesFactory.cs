@@ -12,8 +12,8 @@ namespace LiveSplit.BugFables
     public string Description => ComponentName;
     public ComponentCategory Category => ComponentCategory.Control;
     public string UpdateName => ComponentName;
-    public string XMLURL => "";
-    public string UpdateURL => "";
+    public string XMLURL => UpdateURL + "Components/Updates.xml";
+    public string UpdateURL => "https://raw.githubusercontent.com/aldelaro5/LiveSplit.BugFables/main/";
     public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
     public IComponent Create(LiveSplitState state) => new BugFablesComponent(state);
   }
