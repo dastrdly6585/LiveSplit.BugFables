@@ -2,7 +2,7 @@
 <updates>
     <update version="1.0.0">
         <files>
-            <file path="Components/LiveSplit.BugFablesAutosplitter.dll" status="changed" />
+            <file path="Components/LiveSplit.BugFables.dll" status="changed" />
         </files>
         <changelog>
             <change>Initial Release</change>
