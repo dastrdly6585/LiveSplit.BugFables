@@ -1,6 +1,8 @@
 # LiveSplit.BugFables
 Autosplitter component for Bug Fables: The Everlasting Sapling for use in LiveSplit.
 
+>Only the 1.1.0 version of the game is supported
+
 This autosplitter supports the following features:
 
 * Auto start when starting a new file; this works regardless of starting the file from the MYSTERY? set seed prompt or the filename prompt.
