@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
-    <update version="1.0.0">
-        <files>
-            <file path="Components/LiveSplit.BugFables.dll" status="changed" />
-        </files>
-        <changelog>
-            <change>Initial Release</change>
-        </changelog>
-    </update>
-  <update version="1.0.1">
+  <update version="1.0.3">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
     </files>
     <changelog>
-      <change>Fixed the prefix pointer path</change>
-      <change>Fixed the settings UI being too large in height</change>
+      <change>Trying a fix for logic to determine that a battle has been won...AGAIN</change>
     </changelog>
   </update>
   <update version="1.0.2">
@@ -26,12 +17,21 @@
       <change>Fixed the logic to determine that a battle has been won</change>
     </changelog>
   </update>
-  <update version="1.0.3">
+  <update version="1.0.1">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
     </files>
     <changelog>
-      <change>Trying a fix for logic to determine that a battle has been won...AGAIN</change>
+      <change>Fixed the prefix pointer path</change>
+      <change>Fixed the settings UI being too large in height</change>
+    </changelog>
+  </update>
+  <update version="1.0.0">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Initial Release</change>
     </changelog>
   </update>
 </updates>
