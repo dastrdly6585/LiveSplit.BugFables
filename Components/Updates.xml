@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
+  <update version="1.1.0">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Completely change the post battle splits check, timing and name</change>
+    </changelog>
+  </update>
   <update version="1.0.3">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
