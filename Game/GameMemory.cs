@@ -12,6 +12,8 @@ namespace LiveSplit.BugFables
     private const string UnityPlayerModuleName = "UnityPlayer.dll";
     private const string ProcessName = "Bug Fables";
 
+    private const string MainManagerName = "Main Camera";
+
     private enum BfVersion
     {
       UNASSIGNED,
@@ -46,9 +48,6 @@ namespace LiveSplit.BugFables
     const int offsetMainManagerMusicCoroutine = 0x58;
     const int offsetMainManagerInBattle = 0x259;
 
-    // BattleControl offsets
-    const int offsetBattleControlEnemyData = 0x18;
-
     // Unity specific offsets
     const int offsetUnityCachedPtr = 0x10;
     readonly List<int> offsetPathUnityGameObjectName = new List<int> { offsetUnityCachedPtr, 0x30, 0x60, 0x0 };
@@ -59,7 +58,7 @@ namespace LiveSplit.BugFables
     private DeepPointer DPMainManagerCurrentRoomName = null;
     private DeepPointer DPMainManagerLastEvent = null;
     private DeepPointer DPMainManagerInBattle = null;
-    private DeepPointer DPMainManagerBattleEnemyDataLength = null;
+    private DeepPointer DPMainManagerBattleName = null;
     private DeepPointer DPMainManagerFlags = null;
     private DeepPointer DPMainManagerFirstMusicId = null;
 
@@ -149,11 +148,18 @@ namespace LiveSplit.BugFables
       return inBattle;
     }
 
-    public int ReadBattleEnemyDataLength()
+    public bool ReadBattleHasMainManagerName()
     {
-      int enemyDataLength = -1;
-      DPMainManagerBattleEnemyDataLength.Deref<int>(BfGameProcess, out enemyDataLength);
-      return enemyDataLength;
+      StringBuilder sb = new StringBuilder();
+      if (DPMainManagerBattleName.DerefString(BfGameProcess, ReadStringType.ASCII, sb))
+      {
+        string battleName = sb.ToString();
+        return (battleName == MainManagerName);
+      }
+      else
+      {
+        return false;
+      }
     }
 
     private void InitDeepPointers()
@@ -170,14 +176,14 @@ namespace LiveSplit.BugFables
       DPMainManagerInBattle = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
         GetFullOffsetPathFromParts(new List<int> { offsetMainManagerInstance, offsetMainManagerInBattle }));
 
-      DPMainManagerBattleEnemyDataLength = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
-        GetFullOffsetPathFromParts(new List<int> { offsetMainManagerBattle, offsetBattleControlEnemyData, offsetArrayLength }));
-
       DPMainManagerFlags = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
         GetFullOffsetPathFromParts(new List<int> { offsetMainManagerInstance, offsetMainManagerFlagsArray,
                                                    offsetArrayFirstElement }));
       DPMainManagerFirstMusicId = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
         GetFullOffsetPathFromParts(new List<int> { offsetMainMangerMusicIdArray, offsetArrayFirstElement }));
+      
+      DPMainManagerBattleName = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
+        GetFullOffsetPathFromParts(new List<int> { offsetMainManagerBattle }, offsetPathUnityGameObjectName));
     }
 
     private int[] GetFullOffsetPathFromParts(List<int> mainParts, List<int> unitySuffixPath = null, int unityArrayOffset = -1)
@@ -220,7 +226,7 @@ namespace LiveSplit.BugFables
       DPMainManagerCurrentRoomName = null;
       DPMainManagerLastEvent = null;
       DPMainManagerInBattle = null;
-      DPMainManagerBattleEnemyDataLength = null;
+      DPMainManagerBattleName = null;
       DPMainManagerFlags = null;
       DPMainManagerFirstMusicId = null;
       numFlags = -1;

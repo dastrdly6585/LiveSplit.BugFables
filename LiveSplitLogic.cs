@@ -20,7 +20,7 @@ namespace LiveSplit.BugFables
 
     private int oldLastEvent = -1;
     private int nbrBattlesSinceEvent = 0;
-    private bool oldInBattle = false;
+    private bool oldBattleExists = false;
     private bool oldListeningToTitleSong = false;
 
     private Split[] splits;
@@ -59,11 +59,11 @@ namespace LiveSplit.BugFables
           currentSplitIndex != currentRunSplitsCount - 1)
       {
         int newLastEvent = gameMemory.ReadLastEventId();
-        bool newInBattle = gameMemory.ReadBattleInProgress();
-        int enemyDataLength = gameMemory.ReadBattleEnemyDataLength();
+        bool inBattle = gameMemory.ReadBattleInProgress();
+        bool newBattleExists = gameMemory.ReadBattleHasMainManagerName();
 
         bool battleWon = false;
-        if (oldInBattle && !newInBattle && enemyDataLength == 0)
+        if (oldBattleExists && !newBattleExists && !inBattle)
           battleWon = true;
 
         if (newLastEvent != oldLastEvent)
@@ -74,7 +74,7 @@ namespace LiveSplit.BugFables
 
         bool shouldSplit = ShouldMidSplit(battleWon, newLastEvent, currentSplitIndex);
 
-        oldInBattle = newInBattle;
+        oldBattleExists = newBattleExists;
         oldLastEvent = newLastEvent;
         return shouldSplit;
       }
@@ -160,7 +160,7 @@ namespace LiveSplit.BugFables
 
 		public void ResetLogic()
 		{
-      oldInBattle = false;
+      oldBattleExists = false;
       oldLastEvent = -1;
       oldListeningToTitleSong = false;
       nbrBattlesSinceEvent = 0;
