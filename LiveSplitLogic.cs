@@ -58,16 +58,21 @@ namespace LiveSplit.BugFables
       if (settings.Mode != SettingsUserControl.AutoSplitterMode.StartEndOnly && 
           currentSplitIndex != currentRunSplitsCount - 1)
       {
-        bool newInBattle = gameMemory.ReadBattleInProgress();
         int newLastEvent = gameMemory.ReadLastEventId();
+        bool newInBattle = gameMemory.ReadBattleInProgress();
+        int enemyDataLength = gameMemory.ReadBattleEnemyDataLength();
+
+        bool battleWon = false;
+        if (oldInBattle && !newInBattle && enemyDataLength == 0)
+          battleWon = true;
 
         if (newLastEvent != oldLastEvent)
           nbrBattlesSinceEvent = 0;
 
-        if (oldInBattle && !newInBattle)
+        if (battleWon)
           nbrBattlesSinceEvent++;
 
-        bool shouldSplit = ShouldMidSplit(newInBattle, newLastEvent, currentSplitIndex);
+        bool shouldSplit = ShouldMidSplit(battleWon, newLastEvent, currentSplitIndex);
 
         oldInBattle = newInBattle;
         oldLastEvent = newLastEvent;
@@ -79,7 +84,7 @@ namespace LiveSplit.BugFables
       }
     }
 
-    private bool ShouldMidSplit(bool newInBattle, int lastEvent, int currentSplitIndex)
+    private bool ShouldMidSplit(bool battleWon, int lastEvent, int currentSplitIndex)
     {
       int currentRoomId = gameMemory.ReadCurrentRoomId();
       byte[] flags = gameMemory.ReadFlags();
@@ -94,8 +99,8 @@ namespace LiveSplit.BugFables
         return false;
 
       if (!(split.requiredBattleEvent == GameEnums.Event.UNASSIGNED ||
-            (oldInBattle && !newInBattle &&
-            lastEvent == (int)split.requiredBattleEvent && nbrBattlesSinceEvent == split.requiredNbrBattleInEvent)))
+            (battleWon && lastEvent == (int)split.requiredBattleEvent && 
+            nbrBattlesSinceEvent == split.requiredNbrBattleInEvent)))
         return false;
 
       if (split.requiredFlags != null)
