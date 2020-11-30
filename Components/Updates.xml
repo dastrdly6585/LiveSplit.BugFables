@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
+  <update version="1.1.1">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Fixed the Requesting Assistance split logic</change>
+      <change>Added a text with the version number to the settings window</change>
+    </changelog>
+  </update>
   <update version="1.1.0">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
