@@ -163,7 +163,7 @@ namespace LiveSplit.BugFables.UI
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.EndedCh2 } },
 
         new Split { group = "Chapter 3", name = "Requesting Assistance",
-                    requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.EndedCh1 } },
+                    requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.CompletedRequestingAssistance } },
         new Split { group = "Chapter 3", name = "Merchant Rescue",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedMerchants } },
         new Split { group = "Chapter 3", name = "Enter Honey Factory",
