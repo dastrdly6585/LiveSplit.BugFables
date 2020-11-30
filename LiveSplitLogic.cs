@@ -18,6 +18,12 @@ namespace LiveSplit.BugFables
 
 		private GameMemory gameMemory = new GameMemory();
 
+    private int oldLastEvent = -1;
+    private int nbrBattlesSinceEvent = 0;
+    private int numBattleExists = 0;
+    private int numFramesBattleDNExists = 0;
+    private int frameThresh = 5;
+    private bool oldBattleExists = false;
     private bool oldListeningToTitleSong = false;
 
     private Split[] splits;
@@ -55,7 +61,40 @@ namespace LiveSplit.BugFables
       if (settings.Mode != SettingsUserControl.AutoSplitterMode.StartEndOnly && 
           currentSplitIndex != currentRunSplitsCount - 1)
       {
-        return ShouldMidSplit(currentSplitIndex);
+        int newLastEvent = gameMemory.ReadLastEventId();
+        bool newBattleExists = gameMemory.ReadBattleHasMainManagerName();
+
+        if ((newLastEvent != oldLastEvent) && (newLastEvent > 0))
+         {
+            nbrBattlesSinceEvent = 0;
+            numBattleExists = 0;
+         }
+
+        bool battleWon = false;
+
+        if (oldBattleExists && !newBattleExists && (newLastEvent != 0))
+          numFramesBattleDNExists = 1;
+        else if ((numFramesBattleDNExists > 0) && !newBattleExists)
+          numFramesBattleDNExists++;
+
+        if (numFramesBattleDNExists >= frameThresh)
+         {
+            numBattleExists++;
+            numFramesBattleDNExists = 0;
+         }
+
+         if (numBattleExists == (nbrBattlesSinceEvent + 1))
+         {
+            nbrBattlesSinceEvent++;
+            battleWon = true;
+         }
+
+        bool shouldSplit = ShouldMidSplit(battleWon, newLastEvent, currentSplitIndex);
+
+        oldBattleExists = newBattleExists;
+        if (newLastEvent > 0)
+           oldLastEvent = newLastEvent;
+        return shouldSplit;
       }
       else
       {
@@ -63,7 +102,7 @@ namespace LiveSplit.BugFables
       }
     }
 
-    private bool ShouldMidSplit(int currentSplitIndex)
+    private bool ShouldMidSplit(bool battleWon, int lastEvent, int currentSplitIndex)
     {
       int currentRoomId = gameMemory.ReadCurrentRoomId();
       byte[] flags = gameMemory.ReadFlags();
@@ -75,6 +114,11 @@ namespace LiveSplit.BugFables
       
       if (split.requiredRoom != GameEnums.Room.UNASSUGNED &&
           currentRoomId != (int)split.requiredRoom)
+        return false;
+
+      if (!(split.requiredBattleEvent == GameEnums.Event.UNASSIGNED ||
+            (battleWon && lastEvent == (int)split.requiredBattleEvent &&
+            nbrBattlesSinceEvent == split.requiredNbrBattleInEvent)))
         return false;
 
       if (split.requiredFlags != null)
@@ -132,11 +176,16 @@ namespace LiveSplit.BugFables
       return false;
     }
 
-		public void ResetLogic()
-		{
-      oldListeningToTitleSong = false;
+    public void ResetLogic()
+	{
+        oldBattleExists = false;
+        oldLastEvent = -1;
+        oldListeningToTitleSong = false;
+        nbrBattlesSinceEvent = 0;
+        numBattleExists = 0;
+        numFramesBattleDNExists = 0;
 
-      InitSplits();
+        InitSplits();
     }
   }
 }

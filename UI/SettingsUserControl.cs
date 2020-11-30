@@ -47,7 +47,7 @@ namespace LiveSplit.BugFables.UI
           lbl.Height = 15;
           flowSplits.Controls.Add(lbl);
         }
-        flowSplits.Controls.Add(new SplitSetting(split.name, split.isEnbaled, split.group, this));
+        flowSplits.Controls.Add(new SplitSetting(split.name, split.isEnabled, split.group, this));
 
         flowSplits.ResumeLayout(true);
 
@@ -56,7 +56,7 @@ namespace LiveSplit.BugFables.UI
     }
     public Split[] GetSplitsGlitchless()
     {
-      return glitchlessAllSplits.Where(x => x.isEnbaled).ToArray();
+      return glitchlessAllSplits.Where(x => x.isEnabled).ToArray();
     }
 
     public void LoadSettings(XmlNode node)
@@ -91,7 +91,7 @@ namespace LiveSplit.BugFables.UI
       {
         bool isSplitEnabled = SettingsHelper.ParseBool(splitNodes[i]["IsEnabled"]);
         splitSettings[i].SplitEnabled = isSplitEnabled;
-        glitchlessAllSplits[i].isEnbaled = isSplitEnabled;
+        glitchlessAllSplits[i].isEnabled = isSplitEnabled;
       }
     }
 
@@ -117,7 +117,7 @@ namespace LiveSplit.BugFables.UI
         SettingsHelper.CreateSetting(doc, xmlSplit, "Group", split.SplitGroup);
         SettingsHelper.CreateSetting(doc, xmlSplit, "IsEnabled", split.SplitEnabled);
 
-        glitchlessAllSplits[currentIndex].isEnbaled = split.SplitEnabled;
+        glitchlessAllSplits[currentIndex].isEnabled = split.SplitEnabled;
 
         currentIndex++;
       }
@@ -142,52 +142,80 @@ namespace LiveSplit.BugFables.UI
       glitchlessAllSplits = new Split[]
       {
         new Split { group = "Chapter 1", name = "Leif Rescue",
+                    requiredBattleEvent = GameEnums.Event.ApproachingSpuderWeb, requiredNbrBattleInEvent = 2 },
+        new Split { group = "Chapter 1", name = "Leif Rescue (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedLeif } },
         new Split { group = "Chapter 1", name = "Enter Treasure Room",
                     requiredRoom = GameEnums.Room.SnakemouthTreasureRoom },
+        new Split { group = "Chapter 1", name = "Spider",
+                    requiredBattleEvent = GameEnums.Event.ApproachingAncientMask, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 1", name = "End of Chapter 1",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.EndedCh1 } },
 
         new Split { group = "Chapter 2", name = "Enter Golden Settlement",
                     requiredRoom = GameEnums.Room.GoldenSettlementEntrance },
+        new Split { group = "Chapter 2", name = "Aria",
+                    requiredBattleEvent = GameEnums.Event.StartingGSCeremony, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 2", name = "Ceremony",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.CeremonyEnded } },
         new Split { group = "Chapter 2", name = "Golden Hills after Big Crank",
                     requiredRoom = GameEnums.Room.GoldenHillsDungeonEntrance,
                     requiredFlags = new GameEnums.Flag[2] { GameEnums.Flag.GotBigCrankTopHalf, GameEnums.Flag.GotBigCrankBottomHalf } },
         new Split { group = "Chapter 2", name = "Zasp & Mothiva",
+                    requiredBattleEvent = GameEnums.Event.PlacingBigCrank, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 2", name = "Zasp & Mothiva (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.BeatZaspAndMothivaGoldenHills } },
         new Split { group = "Chapter 2", name = "Enter Venus's Garden",
                     requiredRoom = GameEnums.Room.GoldenHillsDungeonBoss },
+        new Split { group = "Chapter 2", name = "Venus Guardian",
+                    requiredBattleEvent = GameEnums.Event.ApproachingVenus, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 2", name = "End of Chapter 2",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.EndedCh2 } },
 
+        new Split { group = "Chapter 3", name = "Monsieur Scarlet",
+                    requiredBattleEvent = GameEnums.Event.TalkingAboutRequestingAssistance, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 3", name = "Requesting Assistance",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.CompletedRequestingAssistance } },
+        new Split { group = "Chapter 3", name = "Bandit Ambush Fight",
+                    requiredBattleEvent = GameEnums.Event.ApproachingBanditWaspAmbush, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 3", name = "Merchant Rescue",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedMerchants } },
         new Split { group = "Chapter 3", name = "Enter Honey Factory",
                     requiredRoom = GameEnums.Room.HoneyFactoryEntrance },
         new Split { group = "Chapter 3", name = "Gen & Eri Rescue",
+                    requiredBattleEvent = GameEnums.Event.ApproachingGenEriBeeBoops, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 3", name = "Gen & Eri Rescue (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedGenEri } },
         new Split { group = "Chapter 3", name = "Malbee Rescue",
+                    requiredBattleEvent = GameEnums.Event.ApproachingMalbeeAbomihoneys, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 3", name = "Malbee Rescue (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedMalbee } },
+        new Split { group = "Chapter 3", name = "Ahoneynation",
+                    requiredBattleEvent = GameEnums.Event.ApproachingAhoneynation, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 3", name = "Zasp & Mothiva Rescue",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedZaspMothiva } },
         new Split { group = "Chapter 3", name = "Factory Core after Overseer Rescue",
                     requiredRoom = GameEnums.Room.HoneyFactoryCore,
                     requiredFlags = new GameEnums.Flag[1] { GameEnums.Flag.RescuedOverseer } },
+        new Split { group = "Chapter 3", name = "Heavy Drone B-33",
+                    requiredBattleEvent = GameEnums.Event.TalkingToOverseerInCore, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 3", name = "End of Chapter 3",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.EndedCh3 } },
 
         new Split { group = "Chapter 4", name = "Enter Bandit Hideout",
                     requiredRoom = GameEnums.Room.HideoutEntrance },
+        new Split { group = "Chapter 4", name = "Astotheles",
+                    requiredBattleEvent = GameEnums.Event.AncientCastleKeysEvent, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 4", name = "Earth Key",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.GotEarthKey } },
+        new Split { group = "Chapter 4", name = "Dune Scorpion",
+                    requiredBattleEvent = GameEnums.Event.ApproachingDuneScorpion, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 4", name = "Enter Ancient Castle",
                     requiredRoom = GameEnums.Room.SandCastleEntrance },
         new Split { group = "Chapter 4", name = "Enter Treasure Room",
                     requiredRoom = GameEnums.Room.SandCastleBossRoom },
+        new Split { group = "Chapter 4", name = "The Watcher",
+                    requiredBattleEvent = GameEnums.Event.ApproachingWatcher, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 4", name = "End of Chapter 4",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.EndedCh4 } },
 
@@ -196,29 +224,45 @@ namespace LiveSplit.BugFables.UI
         new Split { group = "Chapter 5", name = "Enter The Beast's Room",
                     requiredRoom = GameEnums.Room.SwamplandsBoss },
         new Split { group = "Chapter 5", name = "The Beast",
+                    requiredBattleEvent = GameEnums.Event.ApproachingTheBeast, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 5", name = "The Beast (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.BeatTheBeast } },
+        new Split { group = "Chapter 5", name = "General Ultimax",
+                    requiredBattleEvent = GameEnums.Event.ApproachingWaspKingdomHiveThroneRoom, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 5", name = "Vanessa II Rescue",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.RescuedVanessaII } },
 
         new Split { group = "Chapter 6", name = "Enter Forsaken Lands",
                     requiredRoom = GameEnums.Room.BarrenLandsEntrance },
         new Split { group = "Chapter 6", name = "Primal Weevil",
+                    requiredBattleEvent = GameEnums.Event.ApproachingPrimalWeevil, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 6", name = "Primal Weevil (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.BeatPrimalWeevil } },
+        new Split { group = "Chapter 6", name = "Zasp & Mothiva 2",
+                    requiredBattleEvent = GameEnums.Event.EnteringColosseum, requiredNbrBattleInEvent = 3 },
         new Split { group = "Chapter 6", name = "Colosseum",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.BeatColosseum } },
         new Split { group = "Chapter 6", name = "Rubber Prison Giant's Lair Bridge",
                     requiredRoom = GameEnums.Room.RubberPrisonGiantLairBridge },
         new Split { group = "Chapter 6", name = "ULTIMAX Tank",
+                    requiredBattleEvent = GameEnums.Event.ApproachingUltimaxTank, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 6", name = "ULTIMAX Tank (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.BeatUltimaxTank } },
 
         new Split { group = "Chapter 7", name = "Deadlanders Trio",
+                    requiredBattleEvent = GameEnums.Event.ApproachingFridgeEntrance, requiredNbrBattleInEvent = 1 },
+        new Split { group = "Chapter 7", name = "Deadlanders Trio (Post Cutscene)",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.BeatDeadLandersTrio } },
         new Split { group = "Chapter 7", name = "Exit Fridge",
                     requiredRoom = GameEnums.Room.GiantLairRoachVillage },
         new Split { group = "Chapter 7", name = "Final Boss Room",
                     requiredRoom = GameEnums.Room.GiantLairSaplingPlains },
+        new Split { group = "Chapter 7", name = "The Wasp King",
+                    requiredBattleEvent = GameEnums.Event.ApproachingWaspKing, requiredNbrBattleInEvent = 1 },
         new Split { group = "Chapter 7", name = "The Everlasting Sapling",
                     requiredFlags = new GameEnums.Flag[] { GameEnums.Flag.PostGame } },
+        new Split { group = "Chapter 7", name = "The Everlasting King",
+                    requiredBattleEvent = GameEnums.Event.ApproachingWaspKing, requiredNbrBattleInEvent = 2 },
         new Split { group = "Chapter 7", name = "Ant City Plaza",
                     requiredRoom = GameEnums.Room.BugariaEndPlaza }
       };
