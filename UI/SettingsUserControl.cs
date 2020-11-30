@@ -28,6 +28,7 @@ namespace LiveSplit.BugFables.UI
     public SettingsUserControl(LiveSplitState state)
     {
       InitializeComponent();
+      lblVersion.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
       settingsHasChanged = false;
       liveSplitState = state;
       InitSplits();

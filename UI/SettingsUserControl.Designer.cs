@@ -35,6 +35,7 @@ namespace LiveSplit.BugFables.UI
       this.grpSplits = new System.Windows.Forms.GroupBox();
       this.flowSplits = new System.Windows.Forms.FlowLayoutPanel();
       this.btnSetCurrentSplits = new System.Windows.Forms.Button();
+      this.lblVersion = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.grpSplits.SuspendLayout();
       this.SuspendLayout();
@@ -57,7 +58,7 @@ namespace LiveSplit.BugFables.UI
       this.groupBox1.Controls.Add(this.rdbStartEndOnly);
       this.groupBox1.Location = new System.Drawing.Point(3, 3);
       this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(694, 62);
+      this.groupBox1.Size = new System.Drawing.Size(427, 62);
       this.groupBox1.TabIndex = 1;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Mode";
@@ -76,6 +77,7 @@ namespace LiveSplit.BugFables.UI
       // 
       // grpSplits
       // 
+      this.grpSplits.Controls.Add(this.lblVersion);
       this.grpSplits.Controls.Add(this.btnSetCurrentSplits);
       this.grpSplits.Controls.Add(this.flowSplits);
       this.grpSplits.Location = new System.Drawing.Point(3, 83);
@@ -106,6 +108,15 @@ namespace LiveSplit.BugFables.UI
       this.btnSetCurrentSplits.UseVisualStyleBackColor = true;
       this.btnSetCurrentSplits.Click += new System.EventHandler(this.btnSetCurrentSplits_Click);
       // 
+      // lblVersion
+      // 
+      this.lblVersion.AutoSize = true;
+      this.lblVersion.Location = new System.Drawing.Point(2, 649);
+      this.lblVersion.Name = "lblVersion";
+      this.lblVersion.Size = new System.Drawing.Size(108, 20);
+      this.lblVersion.TabIndex = 3;
+      this.lblVersion.Text = "Version X.X.X";
+      // 
       // SettingsUserControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -117,6 +128,7 @@ namespace LiveSplit.BugFables.UI
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.grpSplits.ResumeLayout(false);
+      this.grpSplits.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -129,5 +141,6 @@ namespace LiveSplit.BugFables.UI
     private System.Windows.Forms.GroupBox grpSplits;
     private System.Windows.Forms.FlowLayoutPanel flowSplits;
     private System.Windows.Forms.Button btnSetCurrentSplits;
+    private System.Windows.Forms.Label lblVersion;
   }
 }
