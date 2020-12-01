@@ -68,14 +68,14 @@ namespace LiveSplit.BugFables
     public bool ProcessHook()
     {
       Process proc = Process.GetProcessesByName(ProcessName).FirstOrDefault();
-      
+
       // Already hooked
       if (BfGameProcess != null && proc != null)
         return true;
       // Already unhooked
       if (BfGameProcess == null && proc == null)
         return false;
-      
+
       // New hook
       if (BfGameProcess == null && proc != null)
       {
@@ -124,7 +124,7 @@ namespace LiveSplit.BugFables
       if (!DPMainManagerFirstMusicId.Deref<int>(BfGameProcess, out songId))
       {
         songId = -1;
-        return false; 
+        return false;
       }
       return true;
     }
@@ -163,7 +163,7 @@ namespace LiveSplit.BugFables
         if (!int.TryParse(roomName, out roomId))
         {
           roomId = -1;
-          return false; 
+          return false;
         }
         return true;
       }
@@ -183,7 +183,7 @@ namespace LiveSplit.BugFables
       DPMainManagerFlags = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
         GetFullOffsetPathFromParts(new List<int> { offsetMainManagerInstance, offsetMainManagerFlagsArray,
                                                    offsetArrayFirstElement }));
-      
+
       DPMainManagerFirstMusicId = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
         GetFullOffsetPathFromParts(new List<int> { offsetMainMangerMusicIdArray, offsetArrayFirstElement }));
 

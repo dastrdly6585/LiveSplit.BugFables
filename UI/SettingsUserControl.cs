@@ -83,7 +83,7 @@ namespace LiveSplit.BugFables.UI
 
     private void XmlReadSplits(XmlNodeList splitNodes)
     {
-      if (splitNodes == null) 
+      if (splitNodes == null)
         return;
 
       SplitSetting[] splitSettings = GetSplitsSettings();
@@ -251,7 +251,7 @@ namespace LiveSplit.BugFables.UI
     {
       var answer = MessageBox.Show("This action will clear your current splits which will delete all splits and " +
                       "their associated times before adding new splits corresponding to the enabled ones in this window. " +
-                      "\n\nAre you sure you want to proceed?", "Clearing current splits", 
+                      "\n\nAre you sure you want to proceed?", "Clearing current splits",
                       MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (answer == DialogResult.Yes)
       {
@@ -269,7 +269,7 @@ namespace LiveSplit.BugFables.UI
           if (currentGroup != split.SplitGroup)
           {
             ISegment lastSplit = liveSplitState.Run.Last();
-            lastSplit.Name = "{" + currentGroup + "}" + lastSplit.Name.Remove(0,1);
+            lastSplit.Name = "{" + currentGroup + "}" + lastSplit.Name.Remove(0, 1);
             currentGroup = split.SplitGroup;
           }
 
@@ -279,7 +279,7 @@ namespace LiveSplit.BugFables.UI
         liveSplitState.Run.AddSegment("{" + currentGroup + "}" + "End");
 
         MessageBox.Show("The operation was performed successfully. You may need to remove and add your splits " +
-                        "in your layout for the changes to take effect in LiveSplit.", 
+                        "in your layout for the changes to take effect in LiveSplit.",
                         "Operation successfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
       }
     }

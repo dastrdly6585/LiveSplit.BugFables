@@ -5,7 +5,7 @@ namespace LiveSplit.BugFables
 {
   public class LiveSplitLogic
   {
-		private enum EndTimeState
+    private enum EndTimeState
     {
       NotArrivedYet,
       ArrivedInRoom,
@@ -20,10 +20,10 @@ namespace LiveSplit.BugFables
       Defeated
     }
 
-		private EndTimeState currentEndTimeState = EndTimeState.NotArrivedYet;
+    private EndTimeState currentEndTimeState = EndTimeState.NotArrivedYet;
     private BattleSplitState currentBattleSplitState = BattleSplitState.NotDefeatedYet;
 
-		private GameMemory gameMemory = new GameMemory();
+    private GameMemory gameMemory = new GameMemory();
 
     private bool oldListeningToTitleSong = false;
     private byte[] oldEnemyEncounter = null;
@@ -73,7 +73,7 @@ namespace LiveSplit.BugFables
 
     public bool ShouldSplit(int currentSplitIndex, int currentRunSplitsCount)
     {
-      if (settings.Mode != SettingsUserControl.AutoSplitterMode.StartEndOnly && 
+      if (settings.Mode != SettingsUserControl.AutoSplitterMode.StartEndOnly &&
           currentSplitIndex != currentRunSplitsCount - 1)
       {
         return ShouldMidSplit(currentSplitIndex);
@@ -243,8 +243,8 @@ namespace LiveSplit.BugFables
       return false;
     }
 
-		public void ResetLogic()
-		{
+    public void ResetLogic()
+    {
       oldListeningToTitleSong = false;
       oldEnemyEncounter = null;
       currentBattleSplitState = BattleSplitState.NotDefeatedYet;
