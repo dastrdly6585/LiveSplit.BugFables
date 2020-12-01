@@ -29,7 +29,8 @@ namespace LiveSplit.BugFables
     private int baseAddrMainManagerPath = 0;
     private List<int> offsetPathPrefixMainManagerStatic = new List<int>();
     private int numFlags = -1;
-    const int nbrBytesEnemyEncounter = 256 * 2 * sizeof(int);
+
+    public const int nbrBytesEnemyEncounter = 256 * 2 * sizeof(int);
 
     // General purpose offsets
     const int offsetArrayFirstElement = 0x20;
@@ -55,6 +56,7 @@ namespace LiveSplit.BugFables
     private DeepPointer DPMainManagerCurrentRoomName = null;
     private DeepPointer DPMainManagerFlags = null;
     private DeepPointer DPMainManagerFirstMusicId = null;
+    private DeepPointer DPMainManagerBattle = null;
     private DeepPointer DPMainManagerBattlePtr = null;
     private DeepPointer DPMainManagerEnemyEncounter = null;
 
@@ -101,6 +103,10 @@ namespace LiveSplit.BugFables
       }
       return true;
     }
+    public int GetNbrDefeatedForEnemyId(byte[] enemyEncounter, GameEnums.Enemy enemy)
+    {
+      return BitConverter.ToInt32(enemyEncounter, (int)enemy * sizeof(int) * 2 + 4);
+    }
 
     public bool ReadFlags(out byte[] flags)
     {
@@ -137,8 +143,13 @@ namespace LiveSplit.BugFables
     {
       if (!DPMainManagerBattlePtr.Deref<long>(BfGameProcess, out battlePtr))
       {
-        battlePtr = -1;
-        return false;
+        if (!DPMainManagerBattle.Deref<long>(BfGameProcess, out battlePtr))
+        {
+          battlePtr = -1;
+          return false;
+        }
+        battlePtr = 0;
+        return true;
       }
       return true;
     }
@@ -178,6 +189,9 @@ namespace LiveSplit.BugFables
 
       DPMainManagerBattlePtr = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
       GetFullOffsetPathFromParts(new List<int> { offsetMainManagerBattle, offsetUnityCachedPtr }));
+
+      DPMainManagerBattle = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
+      GetFullOffsetPathFromParts(new List<int> { offsetMainManagerBattle }));
 
       DPMainManagerEnemyEncounter = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
       GetFullOffsetPathFromParts(new List<int> { offsetMainManagerInstance, offsetMainManagerEnemyEncounter, offsetArrayFirstElement }));
@@ -223,6 +237,7 @@ namespace LiveSplit.BugFables
       DPMainManagerCurrentRoomName = null;
       DPMainManagerFlags = null;
       DPMainManagerFirstMusicId = null;
+      DPMainManagerBattle = null;
       DPMainManagerBattlePtr = null;
       DPMainManagerEnemyEncounter = null;
       numFlags = -1;

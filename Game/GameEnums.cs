@@ -4,7 +4,7 @@ namespace LiveSplit.BugFables.GameEnums
 {
 	public enum Room
 	{
-		UNASSUGNED = -1,
+		UNASSIGNED = -1,
 		TestRoom = 0,
 		SnakemouthTreasureRoom = 21,
 		GoldenSettlementEntrance = 39,
@@ -25,32 +25,46 @@ namespace LiveSplit.BugFables.GameEnums
 		BugariaEndThrone = 242
 	}
 
+	public enum Enemy
+	{
+		UNASSIGNED = -1,
+		Spider = 2,
+		Zasp = 3,
+		Thief = 6,
+		Web = 12,
+		Mothiva = 15,
+		AcolyteAria = 21,
+		VenusGuardian = 24,
+		WaspBomber = 26,
+		WaspDriller = 27,
+		WaspScout = 28,
+		MonsieurScarlet = 31,
+		Burglar = 39,
+		Astotheles = 40,
+		Ahoneynation = 42,
+		HeavyDroneB33 = 46,
+		DuneScorpion = 49,
+		TheWatcher = 54,
+		TheBeast = 69,
+		GeneralUltimax = 72,
+		PrimalWeevil = 76,
+		DeadLanderAlpha = 87,
+		DeadLanderBeta = 88,
+		DeadLanderGamma = 89,
+		WaspKing = 90,
+		TheEverlastingKing = 91,
+		ULTIMAXTank = 95
+  }
+
 	public enum Flag
 	{
 		UNASSIGNED = -1,
-		RescuedLeif = 27,
-		EndedCh1 = 41,
-		EndedCh2 = 88,
-		CeremonyEnded = 103,
 		GotBigCrankTopHalf = 113,
 		GotBigCrankBottomHalf = 117,
-		BeatZaspAndMothivaGoldenHills = 118,
-		CompletedRequestingAssistance = 135,
 		RescuedMerchants = 201,
 		RescuedMalbee = 211,
 		RescuedGenEri = 216,
 		RescuedOverseer = 218,
-		RescuedZaspMothiva = 221,
-		EndedCh3 = 299,
-		GotEarthKey = 301,
-		EndedCh4 = 345,
-		BeatTheBeast = 359,
-		RescuedVanessaII = 371,
-		BeatPrimalWeevil = 385,
-		BeatColosseum = 409,
-		BeatUltimaxTank = 584,
-		BeatDeadLandersTrio = 593,
-		PostGame = 555,
 		NewGameStarted = 691
 	}
 

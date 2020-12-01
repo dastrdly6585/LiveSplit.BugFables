@@ -14,11 +14,19 @@ namespace LiveSplit.BugFables
       SongIsFading
     }
 
+    private enum BattleSplitState
+    {
+      NotDefeatedYet,
+      Defeated
+    }
+
 		private EndTimeState currentEndTimeState = EndTimeState.NotArrivedYet;
+    private BattleSplitState currentBattleSplitState = BattleSplitState.NotDefeatedYet;
 
 		private GameMemory gameMemory = new GameMemory();
 
     private bool oldListeningToTitleSong = false;
+    private byte[] oldEnemyEncounter = null;
 
     private Split[] splits;
     private SettingsUserControl settings;
@@ -44,7 +52,6 @@ namespace LiveSplit.BugFables
       {
         if (!gameMemory.ReadFirstMusicId(out currentSong))
           return false;
-
         if (!gameMemory.ReadFlags(out flags))
           return false;
       }
@@ -84,12 +91,17 @@ namespace LiveSplit.BugFables
 
       int currentRoomId;
       byte[] flags;
+      byte[] enemyEncounter;
+      long battlePtr;
       try
       {
         if (!gameMemory.ReadCurrentRoomId(out currentRoomId))
           return false;
-
         if (!gameMemory.ReadFlags(out flags))
+          return false;
+        if (!gameMemory.ReadEnemyEncounter(out enemyEncounter))
+          return false;
+        if (!gameMemory.ReadBattlePtr(out battlePtr))
           return false;
       }
       catch (Exception)
@@ -97,12 +109,35 @@ namespace LiveSplit.BugFables
         return false;
       }
 
+      if (oldEnemyEncounter == null)
+      {
+        oldEnemyEncounter = new byte[GameMemory.nbrBytesEnemyEncounter];
+        enemyEncounter.CopyTo(oldEnemyEncounter, 0);
+      }
+
       Split split = splits[currentSplitIndex];
-      
-      if (split.requiredRoom != GameEnums.Room.UNASSUGNED &&
-          currentRoomId != (int)split.requiredRoom)
+
+      if (!MidSplitRoomCheck(split, currentRoomId))
+        return false;
+      if (!MidSplitFlagsCheck(split, flags))
+        return false;
+      if (!MidSplitEnemyDefeatedCheck(split, enemyEncounter, battlePtr))
         return false;
 
+      currentBattleSplitState = BattleSplitState.NotDefeatedYet;
+      enemyEncounter.CopyTo(oldEnemyEncounter, 0);
+
+      return true;
+    }
+
+    private bool MidSplitRoomCheck(Split split, int currentRoomId)
+    {
+      return (split.requiredRoom == GameEnums.Room.UNASSIGNED ||
+              currentRoomId == (int)split.requiredRoom);
+    }
+
+    private bool MidSplitFlagsCheck(Split split, byte[] flags)
+    {
       if (split.requiredFlags != null)
       {
         if (split.requiredFlags.Length != 0)
@@ -117,10 +152,41 @@ namespace LiveSplit.BugFables
             }
           }
 
-          if (!allFlagsTrue)
-            return false;
+          return allFlagsTrue;
         }
       }
+
+      return true;
+    }
+
+    private bool MidSplitEnemyDefeatedCheck(Split split, byte[] enemyEncounter, long battlePtr)
+    {
+      if (split.requiredEnemiesDefeated != null)
+      {
+        if (split.requiredEnemiesDefeated.Length != 0)
+        {
+          if (currentBattleSplitState == BattleSplitState.Defeated)
+            return battlePtr == 0;
+
+          bool allEnemiesDefeated = true;
+          foreach (var requiredEnemy in split.requiredEnemiesDefeated)
+          {
+            int newNbrDefeated = gameMemory.GetNbrDefeatedForEnemyId(enemyEncounter, requiredEnemy);
+            int oldNbrDefeated = gameMemory.GetNbrDefeatedForEnemyId(oldEnemyEncounter, requiredEnemy);
+            if (newNbrDefeated <= oldNbrDefeated)
+            {
+              allEnemiesDefeated = false;
+              break;
+            }
+          }
+
+          if (allEnemiesDefeated)
+            currentBattleSplitState = BattleSplitState.Defeated;
+
+          return false;
+        }
+      }
+
       return true;
     }
 
@@ -153,7 +219,6 @@ namespace LiveSplit.BugFables
       }
       else
       {
-
         bool newMusicCouroutineInProgress = (musicCoroutine != 0);
 
         if (currentEndTimeState == EndTimeState.ArrivedInRoom && currentSong == (int)GameEnums.Song.LevelUp)
@@ -181,6 +246,9 @@ namespace LiveSplit.BugFables
 		public void ResetLogic()
 		{
       oldListeningToTitleSong = false;
+      oldEnemyEncounter = null;
+      currentBattleSplitState = BattleSplitState.NotDefeatedYet;
+      currentEndTimeState = EndTimeState.NotArrivedYet;
 
       InitSplits();
     }
