@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
+  <update version="1.2.1">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Fixed an issue where reload save can break the enemy defeated check</change>
+      <change>Reverted the timing of ALL splits to those of 1.0.3</change>
+    </changelog>
+  </update>
   <update version="1.2.0">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
