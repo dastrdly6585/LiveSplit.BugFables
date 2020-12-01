@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
+  <update version="1.2.2">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Fixed an issue with the end split not triggering</change>
+      <change>Fixed the room check of the ch4 enter treasure room split</change>
+    </changelog>
+  </update>
   <update version="1.2.1">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
