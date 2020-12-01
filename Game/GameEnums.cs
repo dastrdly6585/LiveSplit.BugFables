@@ -16,7 +16,6 @@ namespace LiveSplit.BugFables.GameEnums
     FactoryProcessingPuzzle1 = 86,
     FactoryProcessingMalbee = 89,
     HideoutEntrance = 99,
-    SandCastleEntrance = 116,
     SandCastleBossRoom = 128,
     FarGrasslands1 = 137,
     BarrenLandsEntrance = 149,

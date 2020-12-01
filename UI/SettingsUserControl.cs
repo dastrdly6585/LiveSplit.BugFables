@@ -195,8 +195,8 @@ namespace LiveSplit.BugFables.UI
                     requiredEnemiesDefeated = new GameEnums.Enemy[] { GameEnums.Enemy.Astotheles } },
         new Split { group = "Chapter 4", name = "Dune Scorpion",
                     requiredEnemiesDefeated = new GameEnums.Enemy[] { GameEnums.Enemy.DuneScorpion } },
-        new Split { group = "Chapter 4", name = "Enter Ancient Castle",
-                    requiredRoom = GameEnums.Room.SandCastleEntrance },
+        new Split { group = "Chapter 4", name = "Enter Treasure Room",
+                    requiredRoom = GameEnums.Room.SandCastleBossRoom },
         new Split { group = "Chapter 4", name = "The Watcher",
                     requiredEnemiesDefeated = new GameEnums.Enemy[] { GameEnums.Enemy.TheWatcher } },
 
