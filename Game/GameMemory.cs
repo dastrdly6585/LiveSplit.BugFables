@@ -25,7 +25,7 @@ namespace LiveSplit.BugFables
     readonly List<int> offsetPathPrefixMainManagerStatic110 = new List<int> { 0x58, 0x98, 0x0, 0x18 };
     const int numFlags110 = 750;
 
-    // Version agnostics essentials
+    // Version agnostic essentials
     private int baseAddrMainManagerPath = 0;
     private List<int> offsetPathPrefixMainManagerStatic = new List<int>();
     private int numFlags = -1;
@@ -41,7 +41,7 @@ namespace LiveSplit.BugFables
     const int offsetMainManagerBattle = 0x40;
 
     // MainManager offsets
-    const int offsetMainMangerMusicIdArray = 0x160;
+    const int offsetMainManagerMusicIdArray = 0x160;
     const int offsetMainManagerFlagsArray = 0x160;
     const int offsetMainManagerMusicCoroutine = 0x58;
     const int offsetMainManagerEnemyEncounter = 0x190;
@@ -185,7 +185,7 @@ namespace LiveSplit.BugFables
                                                    offsetArrayFirstElement }));
 
       DPMainManagerFirstMusicId = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
-        GetFullOffsetPathFromParts(new List<int> { offsetMainMangerMusicIdArray, offsetArrayFirstElement }));
+        GetFullOffsetPathFromParts(new List<int> { offsetMainManagerMusicIdArray, offsetArrayFirstElement }));
 
       DPMainManagerBattlePtr = new DeepPointer(UnityPlayerModuleName, baseAddrMainManagerPath,
       GetFullOffsetPathFromParts(new List<int> { offsetMainManagerBattle, offsetUnityCachedPtr }));
