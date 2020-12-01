@@ -16,7 +16,7 @@ namespace LiveSplit.BugFables.UI
         chkSplitEnabled.Checked = value;
       }
     }
-    
+
     public string SplitGroup { get; set; }
     public string SplitName { get; set; }
 
