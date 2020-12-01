@@ -40,7 +40,7 @@ namespace LiveSplit.BugFables
     const int offsetMainManagerMap = 0x20;
     const int offsetMainManagerBattle = 0x40;
 
-    // MainManger offsets
+    // MainManager offsets
     const int offsetMainMangerMusicIdArray = 0x160;
     const int offsetMainManagerFlagsArray = 0x160;
     const int offsetMainManagerMusicCoroutine = 0x58;
