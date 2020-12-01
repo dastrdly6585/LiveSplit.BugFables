@@ -187,13 +187,11 @@ namespace LiveSplit.BugFables
 
       try
       {
-        if (gameMemory.ReadFirstMusicId(out currentSong))
+        if (!gameMemory.ReadFirstMusicId(out currentSong))
           return false;
-
-        if (gameMemory.ReadMusicCoroutineInProgress(out musicCoroutine))
+        if (!gameMemory.ReadMusicCoroutineInProgress(out musicCoroutine))
           return false;
-
-        if (gameMemory.ReadCurrentRoomId(out currentRoomId))
+        if (!gameMemory.ReadCurrentRoomId(out currentRoomId))
           return false;
       }
       catch (Exception)
