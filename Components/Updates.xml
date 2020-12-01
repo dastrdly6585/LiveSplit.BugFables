@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
+  <update version="1.2.0">
+    <files>
+      <file path="Components/LiveSplit.BugFables.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Added a new mid split logic check: enemyencounter which will check when enemies are defeated and split on the next battle end</change>
+      <change>Reverted the timing of splits to those of 1.0.3 with the exception of Gen Eri rescue and Malbee rescue</change>
+      <change>Added a lot of protection against missreads of the game memory since the LiveSplit API is stinky and smelly</change>
+    </changelog>
+  </update>
   <update version="1.1.1">
     <files>
       <file path="Components/LiveSplit.BugFables.dll" status="changed" />
