@@ -37,12 +37,26 @@ namespace LiveSplit.BugFables
 
     public bool ShouldStart()
     {
+      int currentSong;
+      byte[] flags;
+
+      try
+      {
+        if (!gameMemory.ReadFirstMusicId(out currentSong))
+          return false;
+
+        if (!gameMemory.ReadFlags(out flags))
+          return false;
+      }
+      catch (Exception)
+      {
+        return false;
+      }
+
       bool shouldStart = false;
-      bool newListeningToTitleSong = gameMemory.ReadFirstMusicId() == (int)GameEnums.Song.Title;
-      
+      bool newListeningToTitleSong = (currentSong == (int)GameEnums.Song.Title);
       if (oldListeningToTitleSong && !newListeningToTitleSong)
       {
-        byte[] flags = gameMemory.ReadFlags();
         shouldStart = BitConverter.ToBoolean(flags, (int)GameEnums.Flag.NewGameStarted);
       }
 
@@ -65,11 +79,23 @@ namespace LiveSplit.BugFables
 
     private bool ShouldMidSplit(int currentSplitIndex)
     {
-      int currentRoomId = gameMemory.ReadCurrentRoomId();
-      byte[] flags = gameMemory.ReadFlags();
-
       if (splits.Length - 1 < currentSplitIndex)
         return false;
+
+      int currentRoomId;
+      byte[] flags;
+      try
+      {
+        if (!gameMemory.ReadCurrentRoomId(out currentRoomId))
+          return false;
+
+        if (!gameMemory.ReadFlags(out flags))
+          return false;
+      }
+      catch (Exception)
+      {
+        return false;
+      }
 
       Split split = splits[currentSplitIndex];
       
@@ -100,29 +126,49 @@ namespace LiveSplit.BugFables
 
     private bool ShouldEnd()
     {
+      int currentSong;
+      long musicCoroutine;
+      int currentRoomId;
+
+      try
+      {
+        if (gameMemory.ReadFirstMusicId(out currentSong))
+          return false;
+
+        if (gameMemory.ReadMusicCoroutineInProgress(out musicCoroutine))
+          return false;
+
+        if (gameMemory.ReadCurrentRoomId(out currentRoomId))
+          return false;
+      }
+      catch (Exception)
+      {
+        return false;
+      }
+
       if (currentEndTimeState == EndTimeState.NotArrivedYet)
       {
-        if (gameMemory.ReadCurrentRoomId() == (int)GameEnums.Room.BugariaEndThrone)
+        if (currentRoomId == (int)GameEnums.Room.BugariaEndThrone)
           currentEndTimeState = EndTimeState.ArrivedInRoom;
       }
       else
       {
-        bool newMusicCouroutine = gameMemory.ReadMusicCoroutineInProgress();
-        int currentSong = gameMemory.ReadFirstMusicId();
+
+        bool newMusicCouroutineInProgress = (musicCoroutine != 0);
 
         if (currentEndTimeState == EndTimeState.ArrivedInRoom && currentSong == (int)GameEnums.Song.LevelUp)
         {
           currentEndTimeState = EndTimeState.SongLevelUpStarting;
         }
-        else if (currentEndTimeState == EndTimeState.SongLevelUpStarting && !newMusicCouroutine)
+        else if (currentEndTimeState == EndTimeState.SongLevelUpStarting && !newMusicCouroutineInProgress)
         {
           currentEndTimeState = EndTimeState.SongLevelIsPlaying;
         }
-        else if (currentEndTimeState == EndTimeState.SongLevelIsPlaying && newMusicCouroutine)
+        else if (currentEndTimeState == EndTimeState.SongLevelIsPlaying && newMusicCouroutineInProgress)
         {
           currentEndTimeState = EndTimeState.SongIsFading;
         }
-        else if (currentEndTimeState == EndTimeState.SongIsFading && !newMusicCouroutine)
+        else if (currentEndTimeState == EndTimeState.SongIsFading && !newMusicCouroutineInProgress)
         {
           currentEndTimeState = EndTimeState.NotArrivedYet;
           return true;
