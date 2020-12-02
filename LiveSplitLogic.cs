@@ -14,14 +14,7 @@ namespace LiveSplit.BugFables
       SongIsFading
     }
 
-    private enum BattleSplitState
-    {
-      NotDefeatedYet,
-      Defeated
-    }
-
     private EndTimeState currentEndTimeState = EndTimeState.NotArrivedYet;
-    private BattleSplitState currentBattleSplitState = BattleSplitState.NotDefeatedYet;
 
     private GameMemory gameMemory = new GameMemory();
 
@@ -124,7 +117,6 @@ namespace LiveSplit.BugFables
       if (!MidSplitEnemyDefeatedCheck(split, enemyEncounter, battlePtr))
         return false;
 
-      currentBattleSplitState = BattleSplitState.NotDefeatedYet;
       enemyEncounter.CopyTo(oldEnemyEncounter, 0);
 
       return true;
@@ -165,8 +157,8 @@ namespace LiveSplit.BugFables
       {
         if (split.requiredEnemiesDefeated.Length != 0)
         {
-          if (currentBattleSplitState == BattleSplitState.Defeated)
-            return battlePtr == 0;
+          if (battlePtr != 0)
+            return false;
 
           bool allEnemiesDefeated = true;
           foreach (var requiredEnemy in split.requiredEnemiesDefeated)
@@ -180,10 +172,7 @@ namespace LiveSplit.BugFables
             }
           }
 
-          if (allEnemiesDefeated)
-            currentBattleSplitState = BattleSplitState.Defeated;
-
-          return false;
+          return allEnemiesDefeated;
         }
       }
 
@@ -198,13 +187,11 @@ namespace LiveSplit.BugFables
 
       try
       {
-        if (gameMemory.ReadFirstMusicId(out currentSong))
+        if (!gameMemory.ReadFirstMusicId(out currentSong))
           return false;
-
-        if (gameMemory.ReadMusicCoroutineInProgress(out musicCoroutine))
+        if (!gameMemory.ReadMusicCoroutineInProgress(out musicCoroutine))
           return false;
-
-        if (gameMemory.ReadCurrentRoomId(out currentRoomId))
+        if (!gameMemory.ReadCurrentRoomId(out currentRoomId))
           return false;
       }
       catch (Exception)
@@ -247,7 +234,6 @@ namespace LiveSplit.BugFables
     {
       oldListeningToTitleSong = false;
       oldEnemyEncounter = null;
-      currentBattleSplitState = BattleSplitState.NotDefeatedYet;
       currentEndTimeState = EndTimeState.NotArrivedYet;
 
       InitSplits();
